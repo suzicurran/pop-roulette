@@ -1,5 +1,6 @@
 import React from 'react';
 import BubbleRow from './bubbleRow';
+import popRouletteUrl from './constants/popRouletteUrl'
 
 class Game extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/api/v1/games/${this.state.id}`)
+    fetch(`${popRouletteUrl}/api/v1/games/${this.state.id}`)
     .then(response => {
       return response.text();
     })
@@ -33,7 +34,7 @@ class Game extends React.Component {
       bubbleToPop: index
     });
 
-    fetch(`http://localhost:3000/api/v1/games/${this.state.id}`, {
+    fetch(`${popRouletteUrl}/api/v1/games/${this.state.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',

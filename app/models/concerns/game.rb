@@ -4,4 +4,9 @@ class Game < ApplicationRecord
     ary[index] = 1
     ary.join('')
   end
+
+  def resetState()
+    self.update_attributes({state: "0000000000000000"})
+  end
+
 end

@@ -9,6 +9,4 @@
   this.App || (this.App = {});
 
   App.cable = ActionCable.createConsumer();
-
-  App.foo = 'hi ther';
 }).call(this);

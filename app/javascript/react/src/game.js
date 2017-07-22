@@ -28,10 +28,11 @@ class Game extends React.Component {
     });
   }
 
-  bubbleOnClick(index) {
+  bubbleOnClick = (index) => {
     const body = JSON.stringify({
       bubbleToPop: index
     });
+
     fetch(`http://localhost:3000/api/v1/games/${this.state.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -44,8 +45,7 @@ class Game extends React.Component {
     this.setState({
       values: data.state
     })
-  }
-
+  };
 
   render() {
     const bubbles = this.state.values.split('').map((elt, index) => {

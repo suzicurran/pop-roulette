@@ -1,6 +1,12 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # ActionCable server URI
+  config.web_socket_server_url = "wss://pop-roulette.herokuapp.com/cable"
+
+  # Allow Request Origins for ActionCAble
+  config.action_cable.allowed_request_origins = ['https://action-cable-example.herokuapp.com', 'http://action-cable-example.herokuapp.com']
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

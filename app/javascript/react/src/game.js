@@ -1,5 +1,5 @@
 import React from 'react';
-import Bubble from './bubble';
+import BubbleRow from './bubbleRow';
 
 class Game extends React.Component {
   constructor(props) {
@@ -48,20 +48,24 @@ class Game extends React.Component {
 
 
   render() {
-    const bubbles = this.state.values.split('').map((val, index) => {
-      return (
-        <Bubble
-          key={index}
-          value={val}
-          onClick={() => { this.bubbleOnClick(index); }}
-        />
-      );
+    const bubbles = this.state.values.split('').map((elt, index) => {
+      return [elt, index]
+    });
+
+    const bubbleSections = [bubbles.slice(0,4),bubbles.slice(4,8),bubbles.slice(8,12),bubbles.slice(12,16)]
+
+    let b = bubbleSections.map((section) => {
+      return <BubbleRow
+       onClick={this.bubbleOnClick}
+       bubbles={section} />
     });
 
     return(
-      <div>
-        {bubbles}
-      </div>
+      <table>
+        <tbody>
+          {b}
+        </tbody>
+      </table>
     );
   }
 }

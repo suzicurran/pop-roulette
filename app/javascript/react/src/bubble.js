@@ -1,8 +1,12 @@
 import React from 'react';
 
 const Bubble = (props) => {
+  let cx = 'bubble';
+  if (props.value === '1') {
+    cx = 'bubble-popped';
+  }
   return (
-    <p onClick={props.onClick}>{props.value}</p>
+    <td className={cx} onClick={props.onClick} />
   );
 }
 

@@ -2,7 +2,10 @@ import React from 'react';
 import Bubble from './bubble';
 
 class Game extends React.Component {
-  state = {id: 1, values: '000000000000000'};
+  constructor(props) {
+    super(props);
+    this.state = {id: 1, values: '000000000000000'};
+  }
 
   componentDidMount() {
     fetch(`http://localhost:3000/api/v1/games/${this.state.id}`)
@@ -17,9 +20,15 @@ class Game extends React.Component {
         values: json.state
       });
     })
+
+    App.games = App.cable.subscriptions.create('GamesChannel', {
+      received: (data) => {
+        this.updateBubbles(data)
+      },
+    });
   }
 
-  bubbleOnClick = (index) => {
+  bubbleOnClick(index) {
     const body = JSON.stringify({
       bubbleToPop: index
     });
@@ -29,7 +38,14 @@ class Game extends React.Component {
       credentials: 'same-origin',
       body
     })
-  };
+  }
+
+  updateBubbles(data) {
+    this.setState({
+      values: data.state
+    })
+  }
+
 
   render() {
     const bubbles = this.state.values.split('').map((val, index) => {

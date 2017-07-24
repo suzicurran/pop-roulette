@@ -2,12 +2,13 @@ import React from 'react';
 import Bubble from './bubble';
 
 const BubbleRow = (props) => {
-  let bubbles = props.bubbles.map((valuesArray) => {
+  let bubbles = props.bubbles.map((bubble) => {
     return (
       <Bubble
-         key={valuesArray[1]}
-         value={valuesArray[0]}
-         onClick={() => { props.onClick(valuesArray[1]); }}
+         key={bubble.bubbleIndex}
+         bubbleIndex={bubble.bubbleIndex}
+         value={bubble.value}
+         clickHandler={props.clickHandler}
        />
    );
   });

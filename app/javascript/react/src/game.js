@@ -6,9 +6,21 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {id: 1, values: '0000000000000000'};
+    this.bubbleOnClick = this.bubbleOnClick.bind(this)
+    this.handleReset = this.handleReset.bind(this)
   }
 
   componentDidMount() {
+    this.fetchState();
+
+    App.games = App.cable.subscriptions.create('GamesChannel', {
+      received: (data) => {
+        this.updateBubbles(data.state)
+      },
+    });
+  }
+
+  fetchState() {
     fetch(`${popRouletteUrl}/api/v1/games/${this.state.id}`)
     .then(response => {
       return response.text();
@@ -21,12 +33,6 @@ class Game extends React.Component {
         values: json.state
       });
     })
-
-    App.games = App.cable.subscriptions.create('GamesChannel', {
-      received: (data) => {
-        this.updateBubbles(data.state)
-      },
-    });
   }
 
   updateBubbles(newValues) {
@@ -51,6 +57,18 @@ class Game extends React.Component {
     })
   }
 
+  handleReset(event) {
+    event.preventDefault();
+    fetch(`${popRouletteUrl}/api/v1/games/${this.state.id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin'
+    })
+    .then((response) => {
+      this.fetchState();
+    })
+  }
+
   render() {
     const sideLength = Math.sqrt(this.state.values.length)
     let bubbleSections = []
@@ -69,11 +87,14 @@ class Game extends React.Component {
     });
 
     return(
-      <table>
-        <tbody>
-          {bubbleRows}
-        </tbody>
-      </table>
+      <div>
+        <table>
+          <tbody>
+            {bubbleRows}
+          </tbody>
+        </table>
+        <button onClick={this.handleReset}>Reset</button>
+      </div>
     );
   }
 }

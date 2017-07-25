@@ -1,12 +1,9 @@
 import React from 'react';
 
 const Bubble = (props) => {
-  let cx = 'bubble';
-  if (props.value === '1') {
-    cx = 'bubble-popped';
-  }
+  let bubbleState = (props.value === '0') ? 'bubble' : 'bubble-popped';
   return (
-    <td className={cx} onClick={props.onClick} />
+    <td id={`bubble_${props.bubbleIndex}`} className={bubbleState} onClick={() => { props.clickHandler(props.bubbleIndex) }} />
   );
 }
 
